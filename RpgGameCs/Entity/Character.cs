@@ -1,6 +1,8 @@
-﻿namespace RpgGameCs.Entity;
+﻿using RpgGameCs.Inventory;
 
-public abstract class Character : ILivingEntity
+namespace RpgGameCs.Entity;
+
+public abstract class Character : ILivingEntity, IInventoryHolder
 {
     protected Character? _killer;
     protected int _lastDamage;
@@ -8,11 +10,14 @@ public abstract class Character : ILivingEntity
     protected uint _absorptionAmount;
     protected uint _maxHealth;
 
+    private IInventory _inventory; 
+
     protected Character(uint health, uint absorptionAmount, uint maxHealth)
     {
         _health = health;
         _absorptionAmount = absorptionAmount;
         _maxHealth = maxHealth;
+        _inventory = new CharacterInventory();
     }
 
     public abstract void Damage(uint damage);
@@ -68,4 +73,9 @@ public abstract class Character : ILivingEntity
     public Character? GetKiller() => _killer;
 
     public bool CanPickupItems() => true;
+
+    public IInventory GetInventory()
+    {
+        return _inventory;
+    }
 }
