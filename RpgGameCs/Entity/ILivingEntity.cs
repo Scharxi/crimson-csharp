@@ -2,8 +2,8 @@
 
 public interface ILivingEntity : IEntity, IDamageable
 {
-    void kill(IEntity? killer);
-    void heal();
+    void Kill(IEntity? killer);
+    void Heal();
     void Attack(IEntity target);
     int GetLastDamage();
     void SetLastDamage(int amount);

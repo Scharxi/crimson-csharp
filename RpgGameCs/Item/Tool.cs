@@ -1,9 +1,10 @@
 ﻿using RpgGameCs.Enchantments;
 using RpgGameCs.Entity.Item;
+using RpgGameCs.Inventory;
 
 namespace RpgGameCs.Item;
 
-public abstract class Tool : IItem, IEnchantable
+public abstract class Tool : IItem, IEnchantable, IEquipable
 {
     public abstract uint Damage { get; }
     public abstract uint HarvestStrength { get; }
@@ -41,6 +42,16 @@ public abstract class Tool : IItem, IEnchantable
     public virtual bool IsWeapon()
     {
         return false;
+    }
+    
+    public virtual void Equip(ref PlayerInventory inv)
+    {
+        inv.ItemInHand = this; 
+    }
+
+    public virtual void UnEquip(ref PlayerInventory inv)
+    {
+        inv.ItemInHand = null; 
     }
 
     // typeof(ITest).IsAssignableFrom(typeof(A))

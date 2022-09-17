@@ -10,41 +10,41 @@ public abstract class Character : ILivingEntity, IInventoryHolder
     protected uint _absorptionAmount;
     protected uint _maxHealth;
 
-    private IInventory _inventory; 
+    private PlayerInventory _inventory;
 
     protected Character(uint health, uint absorptionAmount, uint maxHealth)
     {
         _health = health;
         _absorptionAmount = absorptionAmount;
         _maxHealth = maxHealth;
-        _inventory = new CharacterInventory();
+        _inventory = new CharacterInventory(this);
     }
 
     public abstract void Damage(uint damage);
     public abstract void Damage(uint amount, ILivingEntity source);
-    
+
     public uint GetAbsorptionAmount() => _absorptionAmount;
 
     public uint GetHealth() => _health;
 
-    public uint GetMaxHealth() => _maxHealth; 
+    public uint GetMaxHealth() => _maxHealth;
 
     public void SetAbsorptionAmount(uint amount)
     {
-        _absorptionAmount = amount; 
+        _absorptionAmount = amount;
     }
 
     public void SetMaxHealth(uint maxHealth)
     {
-        _maxHealth = maxHealth; 
+        _maxHealth = maxHealth;
     }
 
     public void SetHealth(uint health)
     {
-        _health = health; 
+        _health = health;
     }
 
-    public void kill(IEntity? killer)
+    public void Kill(IEntity? killer)
     {
         if (killer == null)
             _killer = null;
@@ -53,7 +53,7 @@ public abstract class Character : ILivingEntity, IInventoryHolder
         SetLastDamage(Math.Abs((int)GetMaxHealth()));
     }
 
-    public void heal()
+    public void Heal()
     {
         throw new NotImplementedException();
     }
@@ -63,11 +63,11 @@ public abstract class Character : ILivingEntity, IInventoryHolder
         throw new NotImplementedException();
     }
 
-    public int GetLastDamage() => _lastDamage; 
+    public int GetLastDamage() => _lastDamage;
 
     public void SetLastDamage(int amount)
     {
-        _lastDamage = amount; 
+        _lastDamage = amount;
     }
 
     public Character? GetKiller() => _killer;
@@ -78,4 +78,6 @@ public abstract class Character : ILivingEntity, IInventoryHolder
     {
         return _inventory;
     }
+
+    public PlayerInventory GetEquipment() => (PlayerInventory)GetInventory();
 }

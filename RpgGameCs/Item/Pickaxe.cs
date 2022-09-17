@@ -1,4 +1,6 @@
-﻿namespace RpgGameCs.Item;
+﻿using RpgGameCs.Inventory;
+
+namespace RpgGameCs.Item;
 
 public abstract class Pickaxe : Tool
 {

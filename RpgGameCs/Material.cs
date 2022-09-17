@@ -6,5 +6,11 @@ public enum Material
     GoldPickaxe,
     IronPickaxe,
     WoodenPickaxe,
-    DiamondSword
+    DiamondSword,
+    GoldBoots,
+    DiamondBoots,
+    IronBoots,
+    DiamondHelmet,
+    DiamondLeggings,
+    DiamondChestplate
 }
