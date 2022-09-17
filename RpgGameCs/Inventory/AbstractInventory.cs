@@ -1,4 +1,5 @@
-﻿using RpgGameCs.Entity.Item;
+﻿using RpgGameCs.Entity;
+using RpgGameCs.Entity.Item;
 
 namespace RpgGameCs.Inventory;
 
@@ -35,25 +36,6 @@ public abstract class AbstractInventory : IInventory
         if (!_localStorage.ContainsKey(slot))
             return;
         _localStorage[slot] = item;
-    }
-
-    /// <summary>
-    /// <para>Removes the given Items from the inventory.</para>
-    /// <para>
-    /// It will try to remove 'as much as possible' from the types and amounts you give as arguments.
-    /// </para>
-    /// <para>
-    /// The returned HashMap contains what it couldn't remove, where the key is the index of the parameter, and the value is the Item at that index of the varargs parameter. If all the given Items are removed, it will return an empty HashMap.
-    /// </para>
-    /// <para>
-    /// It is known that in some implementations this method will also set the inputted argument amount to the number of that item not removed from slots.
-    /// </para>
-    /// </summary>
-    /// <param name="items">The Item to remove</param>
-    /// <returns>A HashMap containing items that couldn't be removed.</returns>
-    public Dictionary<uint, IItem> RemoveItem(params IItem[] items)
-    {
-        throw new NotImplementedException();
     }
 
     /// <summary>
@@ -116,19 +98,9 @@ public abstract class AbstractInventory : IInventory
         }
     }
 
-
     /// <summary>
-    /// <para>Stores the given Items in the inventory. This will try to fill existing stacks and empty slots as well as it can.</para>
-    /// <para>The returned HashMap contains what it couldn't store, where the key is the index of the parameter, and the value is the Item at that index of the varargs parameter. If all items are stored, it will return an empty HashMap.</para>
-    /// <para>If you pass in Items which exceed the maximum stack size for the Material, first they will be added to partial stacks where Material.getMaxStackSize() is not exceeded, up to Material.getMaxStackSize(). When there are no partial stacks left stacks will be split on Inventory.getMaxStackSize() allowing you to exceed the maximum stack size for that material.</para>
-    /// <para>It is known that in some implementations this method will also set the inputted argument amount to the number of that item not placed in slots.</para>
+    /// Returns whether the inventory is empty 
     /// </summary>
-    /// <param name="items">The Items to add</param>
-    /// <returns>A HashMap containing items that didn't fit.</returns>
-    public Dictionary<uint, IItem> AddItem(params IItem[] items)
-    {
-        throw new NotImplementedException();
-    }
-
+    /// <returns>True if the count of the private local storage is 0, false otherwise</returns>
     public bool IsEmpty() => _localStorage.Count == 0;
 }
