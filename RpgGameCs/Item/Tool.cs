@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using RpgGameCs.Enchantments;
+﻿using RpgGameCs.Enchantments;
 using RpgGameCs.Entity.Item;
 using RpgGameCs.Inventory;
 
@@ -7,7 +6,6 @@ namespace RpgGameCs.Item;
 
 public abstract class Tool : IItem, IEnchantable, IEquipable
 {
-    public abstract uint Damage { get; }
     public abstract uint HarvestStrength { get; }
     public abstract string DisplayName { get; }
     public abstract short Durability { get; }
@@ -18,7 +16,7 @@ public abstract class Tool : IItem, IEnchantable, IEquipable
 
     protected Tool()
     {
-        _enchantableWrapperDelegate = new EnchantableWrapperDelegate<Tool>(); 
+        _enchantableWrapperDelegate = new EnchantableWrapperDelegate<Tool>();
     }
 
     public List<Enchantment> GetEnchantments()
@@ -55,14 +53,14 @@ public abstract class Tool : IItem, IEnchantable, IEquipable
     {
         return false;
     }
-    
+
     public virtual void Equip(ref PlayerInventory inv)
     {
-        inv.ItemInHand = this; 
+        inv.ItemInHand = this;
     }
 
     public virtual void UnEquip(ref PlayerInventory inv)
     {
-        inv.ItemInHand = null; 
+        inv.ItemInHand = null;
     }
 }

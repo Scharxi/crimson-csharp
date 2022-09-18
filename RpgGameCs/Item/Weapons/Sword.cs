@@ -2,12 +2,10 @@
 
 public abstract class Sword : Weapon
 {
-    public abstract uint Sharpness { get; set; }
-    public override uint Damage { get; }
+    protected abstract uint Sharpness { get; set; }
 
-    protected Sword(uint damage,uint sharpness, short durability, string displayName, Material material) : base(displayName, durability, material)
+    protected Sword(uint damage,uint sharpness, short durability, string displayName, Material material) : base(displayName, durability, material, damage * sharpness)
     {
         Sharpness = sharpness;
-        Damage = damage * sharpness;
     }
 }

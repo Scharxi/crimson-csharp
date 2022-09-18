@@ -1,4 +1,5 @@
-﻿using RpgGameCs.Entity;
+﻿using System.Diagnostics;
+using RpgGameCs.Entity;
 
 namespace RpgGameCs.Class;
 
@@ -10,12 +11,14 @@ public class Warrior : Character, IClass
 
     public override void Damage(uint damage)
     {
-        throw new NotImplementedException();
+        Health -= damage;
+        LastDamage += (int) damage;
     }
 
     public override void Damage(uint amount, ILivingEntity source)
     {
-        throw new NotImplementedException();
+        Damage(amount);
+        LastDamageDealer = source;
     }
 
     public string GetClassName()

@@ -2,7 +2,7 @@
 
 public class WoodenPickaxe : Pickaxe
 {
-    public WoodenPickaxe() : base(45, 2, Material.WoodenPickaxe, 3)
+    public WoodenPickaxe() : base(45, Material.WoodenPickaxe, 3)
     {
         
     }

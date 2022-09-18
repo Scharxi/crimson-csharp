@@ -12,7 +12,7 @@ public interface IItem : IEntity
     bool IsTool();
 
     bool IsWeapon();
-
+    
     static bool IsTool(IItem item)
     {
         return item is Tool;

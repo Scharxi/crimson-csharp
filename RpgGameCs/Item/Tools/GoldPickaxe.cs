@@ -2,7 +2,7 @@
 
 public class GoldPickaxe : Pickaxe
 {
-    public GoldPickaxe() : base(25, 3, Material.GoldPickaxe, 6)
+    public GoldPickaxe() : base(25, Material.GoldPickaxe, 6)
     {
     }
 }

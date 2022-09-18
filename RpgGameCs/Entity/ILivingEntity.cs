@@ -6,7 +6,7 @@ public interface ILivingEntity : IEntity, IDamageable, IInventoryHolder
 {
     void Kill(IEntity? killer);
     void Heal();
-    void Attack(IEntity target);
+    bool Attack(IEntity target);
     int GetLastDamage();
     void SetLastDamage(int amount);
     Character? GetKiller();

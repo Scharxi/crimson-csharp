@@ -1,76 +1,85 @@
 ﻿using RpgGameCs.Inventory;
+using RpgGameCs.Item;
 
 namespace RpgGameCs.Entity;
 
-public abstract class Character : ILivingEntity, IInventoryHolder
+public abstract class Character : ILivingEntity, IEquipmentHolder
 {
-    protected Character? _killer;
-    protected int _lastDamage;
-    protected uint _health;
-    protected uint _absorptionAmount;
-    protected uint _maxHealth;
+    protected Character? Killer;
+    protected int LastDamage;
+    protected uint Health;
+    protected uint AbsorptionAmount;
+    protected uint MaxHealth;
+    protected ILivingEntity? LastDamageDealer;
 
     private PlayerInventory _inventory;
 
     protected Character(uint health, uint absorptionAmount, uint maxHealth)
     {
-        _health = health;
-        _absorptionAmount = absorptionAmount;
-        _maxHealth = maxHealth;
+        Health = health;
+        AbsorptionAmount = absorptionAmount;
+        MaxHealth = maxHealth;
         _inventory = new CharacterInventory(this);
+        LastDamageDealer = null;
     }
 
     public abstract void Damage(uint damage);
     public abstract void Damage(uint amount, ILivingEntity source);
 
-    public uint GetAbsorptionAmount() => _absorptionAmount;
+    public uint GetAbsorptionAmount() => AbsorptionAmount;
 
-    public uint GetHealth() => _health;
+    public uint GetHealth() => Health;
 
-    public uint GetMaxHealth() => _maxHealth;
+    public uint GetMaxHealth() => MaxHealth;
 
     public void SetAbsorptionAmount(uint amount)
     {
-        _absorptionAmount = amount;
+        AbsorptionAmount = amount;
     }
+
+    public ILivingEntity? GetLastDamageDealer() => LastDamageDealer;
 
     public void SetMaxHealth(uint maxHealth)
     {
-        _maxHealth = maxHealth;
+        MaxHealth = maxHealth;
     }
 
     public void SetHealth(uint health)
     {
-        _health = health;
+        Health = health;
     }
 
     public void Kill(IEntity? killer)
     {
         if (killer == null)
-            _killer = null;
-        _killer = (Character?)killer!;
+            Killer = null;
+        Killer = (Character?)killer!;
         SetHealth(0);
         SetLastDamage(Math.Abs((int)GetMaxHealth()));
     }
 
     public void Heal()
     {
-        throw new NotImplementedException();
+        SetHealth(GetMaxHealth());
     }
 
-    public void Attack(IEntity target)
+    public bool Attack(IEntity target)
     {
-        throw new NotImplementedException();
+        if (target is not ILivingEntity entity) return false;
+        if (GetEquipment().ItemInHand is not IDamageDealer) return false;
+        
+        entity.Damage(((IDamageDealer)GetEquipment().ItemInHand!).Damage, this);
+        return true;
     }
 
-    public int GetLastDamage() => _lastDamage;
+    public int GetLastDamage() => LastDamage;
 
     public void SetLastDamage(int amount)
     {
-        _lastDamage = amount;
+        LastDamage = amount;
     }
 
-    public Character? GetKiller() => _killer;
+    public Character? GetKiller() => Killer;
 
     public bool CanPickupItems() => true;
 
@@ -80,4 +89,29 @@ public abstract class Character : ILivingEntity, IInventoryHolder
     }
 
     public PlayerInventory GetEquipment() => (PlayerInventory)GetInventory();
+
+    /// <summary>
+    /// Returns the calculated damage
+    /// </summary>
+    /// <returns></returns>
+    protected uint TakeDamage(uint damage)
+    {
+        uint takenDamage;
+        if (AbsorptionAmount != 0)
+        {
+            if ((int)(AbsorptionAmount - damage) < 0)
+            {
+                takenDamage = Health -= damage;
+                return takenDamage;
+            }
+
+            takenDamage = AbsorptionAmount - damage;
+            return takenDamage;
+        }
+        else
+        {
+            takenDamage = Health -= damage;
+            return takenDamage;
+        }
+    }
 }
