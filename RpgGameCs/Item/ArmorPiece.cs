@@ -16,31 +16,31 @@ public abstract class ArmorPiece : IEquipable, IEnchantable, IItem
 {
     public ArmorPieceType PieceType { get; }
 
-    private List<Enchantment> _enchantments = new();
+    private readonly EnchantableWrapperDelegate<ArmorPiece> _enchantableWrapperDelegate;
 
     public virtual List<Enchantment> GetEnchantments()
     {
-        return _enchantments;
+        return _enchantableWrapperDelegate.GetEnchantments();
     }
 
     public virtual void AddEnchantment(Enchantment enchantment)
     {
-        _enchantments.Add(enchantment);
+        _enchantableWrapperDelegate.AddEnchantment(enchantment);
     }
 
     public virtual bool RemoveEnchantment(Enchantment enchantment)
     {
-        return _enchantments.Remove(enchantment);
+        return _enchantableWrapperDelegate.RemoveEnchantment(enchantment);
     }
 
     public virtual bool IsEnchanted()
     {
-        return _enchantments.Count > 0;
+        return _enchantableWrapperDelegate.IsEnchanted();
     }
 
     public virtual bool IsValidEnchantment(Enchantment enchantment)
     {
-        return enchantment.GetValidTargets().Any(ench => ench.IsAssignableFrom(GetType()));
+        return _enchantableWrapperDelegate.IsValidEnchantment(enchantment);
     }
 
 
@@ -57,6 +57,7 @@ public abstract class ArmorPiece : IEquipable, IEnchantable, IItem
         MaxStackSize = maxStackSize;
         MaterialType = materialType;
         PieceType = type;
+        _enchantableWrapperDelegate = new EnchantableWrapperDelegate<ArmorPiece>();
     }
 
 

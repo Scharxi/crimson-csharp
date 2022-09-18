@@ -1,4 +1,5 @@
-﻿using RpgGameCs.Enchantments;
+﻿using System.Runtime.CompilerServices;
+using RpgGameCs.Enchantments;
 using RpgGameCs.Entity.Item;
 using RpgGameCs.Inventory;
 
@@ -13,25 +14,36 @@ public abstract class Tool : IItem, IEnchantable, IEquipable
     public abstract uint MaxStackSize { get; }
     public abstract Material MaterialType { get; }
 
-    private List<Enchantment> _enchantments = new();
+    private readonly EnchantableWrapperDelegate<Tool> _enchantableWrapperDelegate;
 
-    List<Enchantment> IEnchantable.GetEnchantments() => _enchantments;
+    protected Tool()
+    {
+        _enchantableWrapperDelegate = new EnchantableWrapperDelegate<Tool>(); 
+    }
+
+    public List<Enchantment> GetEnchantments()
+    {
+        return _enchantableWrapperDelegate.GetEnchantments();
+    }
 
     public void AddEnchantment(Enchantment enchantment)
     {
-        if (!IsValidEnchantment(enchantment))
-            throw new ArgumentException("Enchantment cannot be applied to this item.");
-        _enchantments.Add(enchantment);
+        _enchantableWrapperDelegate.AddEnchantment(enchantment);
     }
 
     public bool RemoveEnchantment(Enchantment enchantment)
     {
-        return _enchantments.Remove(enchantment);
+        return _enchantableWrapperDelegate.RemoveEnchantment(enchantment);
     }
 
     public bool IsEnchanted()
     {
-        return _enchantments.Count > 0; 
+        return _enchantableWrapperDelegate.IsEnchanted();
+    }
+
+    public bool IsValidEnchantment(Enchantment enchantment)
+    {
+        return _enchantableWrapperDelegate.IsValidEnchantment(enchantment);
     }
 
     public virtual bool IsTool()
@@ -52,11 +64,5 @@ public abstract class Tool : IItem, IEnchantable, IEquipable
     public virtual void UnEquip(ref PlayerInventory inv)
     {
         inv.ItemInHand = null; 
-    }
-
-    // typeof(ITest).IsAssignableFrom(typeof(A))
-    public bool IsValidEnchantment(Enchantment enchantment)
-    {
-        return enchantment.GetValidTargets().Any(ench => ench.IsAssignableFrom(GetType()));
     }
 }

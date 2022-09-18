@@ -1,6 +1,8 @@
-﻿namespace RpgGameCs.Entity;
+﻿using RpgGameCs.Inventory;
 
-public interface ILivingEntity : IEntity, IDamageable
+namespace RpgGameCs.Entity;
+
+public interface ILivingEntity : IEntity, IDamageable, IInventoryHolder
 {
     void Kill(IEntity? killer);
     void Heal();
