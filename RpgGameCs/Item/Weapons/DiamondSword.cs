@@ -8,5 +8,5 @@ public sealed class DiamondSword : Sword
     }
 
     public override string DisplayName { get; }
-    protected override uint Sharpness { get; set; }
+
 }

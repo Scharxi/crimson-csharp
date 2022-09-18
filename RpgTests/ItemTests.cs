@@ -37,4 +37,11 @@ public class Tests
         
         Assert.That(sword.Damage, Is.EqualTo(14));
     }
+
+    [Test]
+    public void GetSharpnessOfDiamondSwordTest()
+    {
+        var sword = new DiamondSword();
+        Assert.That(sword.GetSharpness(), Is.EqualTo(2));
+    }
 }
