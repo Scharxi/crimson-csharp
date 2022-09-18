@@ -63,4 +63,6 @@ public abstract class Tool : IItem, IEnchantable, IEquipable
     {
         inv.ItemInHand = null;
     }
+
+    public IItem AsItem() => this; 
 }

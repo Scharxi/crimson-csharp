@@ -23,19 +23,25 @@ public class Tests
     public void TestIfEnchantmentIsValidForItem()
     {
         var pickaxe = new DiamondPickaxe();
-        Assert.That(pickaxe.IsValidEnchantment(Enchantment.Durability), Is.EqualTo(true));
-        Assert.That(pickaxe.IsValidEnchantment(Enchantment.Sharpness), Is.EqualTo(false));
+        Assert.Multiple(() =>
+        {
+            Assert.That(pickaxe.IsValidEnchantment(Enchantment.Durability), Is.EqualTo(true));
+            Assert.That(pickaxe.IsValidEnchantment(Enchantment.Sharpness), Is.EqualTo(false));
+        });
     }
 
     [Test]
     public void TestCreateDiamondSword()
     {
         var sword = new DiamondSword();
-        Assert.That(sword.DisplayName, Is.EqualTo("Diamond Sword"));
-        Assert.That(sword.IsWeapon(), Is.True);
-        Assert.That(sword.IsTool(), Is.False);
-        
-        Assert.That(sword.Damage, Is.EqualTo(14));
+        Assert.Multiple(() =>
+        {
+            Assert.That(sword.DisplayName, Is.EqualTo("Diamond Sword"));
+            Assert.That(sword.IsWeapon(), Is.True);
+            Assert.That(sword.IsTool(), Is.False);
+
+            Assert.That(sword.Damage, Is.EqualTo(14));
+        });
     }
 
     [Test]
@@ -43,5 +49,15 @@ public class Tests
     {
         var sword = new DiamondSword();
         Assert.That(sword.GetSharpness(), Is.EqualTo(2));
+    }
+
+    [Test]
+    public void CheckIfItemCanMakeDamageTest()
+    {
+        var sword = new DiamondSword();
+        var pickaxe = new DiamondPickaxe(); 
+        
+        Assert.That(sword.AsItem().CanDealDamage(), Is.True);
+        Assert.That(pickaxe.AsItem().CanDealDamage(), Is.False);
     }
 }

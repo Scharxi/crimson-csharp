@@ -12,6 +12,8 @@ public interface IItem : IEntity
     bool IsTool();
 
     bool IsWeapon();
+
+    virtual bool CanDealDamage() => CanMakeDamage(this);  
     
     static bool IsTool(IItem item)
     {
@@ -21,5 +23,10 @@ public interface IItem : IEntity
     static bool IsWeapon(IItem item)
     {
         return item is Weapon;
+    }
+
+    static bool CanMakeDamage(IItem item)
+    {
+        return item is IDamageDealer; 
     }
 }
