@@ -39,8 +39,11 @@ public class CharacterTests
         var target = new Warrior();
         var weapon = new DiamondSword();
         _warrior.GetEquipment().ItemInHand = weapon;
-        Assert.That(_warrior.GetEquipment().ItemInHand, Is.EqualTo(weapon));
-        Assert.That(_warrior.Attack(target), Is.True);
-        Assert.That(target.GetLastDamageDealer(), Is.EqualTo(_warrior));
+        Assert.Multiple(() =>
+        {
+            Assert.That(_warrior.GetEquipment().ItemInHand, Is.EqualTo(weapon));
+            Assert.That(_warrior.Attack(target), Is.True);
+            Assert.That(target.GetLastDamageDealer(), Is.EqualTo(_warrior));
+        });
     }
 }
